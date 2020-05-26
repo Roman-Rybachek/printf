@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 23:20:07 by jeldora           #+#    #+#             */
-/*   Updated: 2020/05/26 21:39:29 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 23:24:03 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static char		*ft_minus_n_null(int add, char *str,
 		*result = '-';
 		*(result + 1) = '\0';
 		str = ft_strjoin(result, str);
+		ft_basefree(&str, &base_str);
 		free(result);
 	}
 	else
@@ -80,12 +81,14 @@ static int		ft_align(int len, char *str, t_fmt **fmt_flags,
 	ft_memset(nulls, ' ', add);
 	nulls[add] = '\0';
 	if ((*fmt_flags)->align)
+	{
 		str = ft_strjoin(str, nulls);
+		ft_basefree(&str, &base_str);
+	}
 	else
 	{
 		str = ft_minus_n_null(add, str, fmt_flags, nulls);
 	}
-	ft_basefree(&str, &base_str);
 	ft_putstr_fd(str, 1);
 	add = (int)ft_strlen(str);
 	free(str);

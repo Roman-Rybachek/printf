@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/29 21:40:23 by jeldora           #+#    #+#             */
-/*   Updated: 2020/04/30 23:31:23 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 23:15:08 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t		ft_strlen(const char *s)
 	size_t count;
 
 	count = 0;
-	while (*s != '\0')
+	while (s && *s != '\0')
 	{
 		count++;
 		s++;

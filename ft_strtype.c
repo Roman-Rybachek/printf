@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 22:02:59 by jeldora           #+#    #+#             */
-/*   Updated: 2020/05/26 22:58:17 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 23:10:06 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ int				ft_strtype(t_fmt **fmt_flags, va_list ap)
 	char	*str;
 	char	*base_str;
 	int		len;
+	char	*arg;
 
-	str = va_arg(ap, char*);
+	arg = va_arg(ap, char*);
 	base_str = NULL;
-	if (!str)
+	if ((str = arg) && !str)
 	{
 		str = ft_strdup("(null)");
 		base_str = str;
@@ -65,6 +66,7 @@ int				ft_strtype(t_fmt **fmt_flags, va_list ap)
 		ft_putstr_fd(str, 1);
 	len = (int)ft_strlen(str);
 	ft_basefree(&str, &base_str);
-	free(str);
+	if (str != arg)
+		free(str);
 	return (len);
 }
