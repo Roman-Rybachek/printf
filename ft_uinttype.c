@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 00:56:05 by jeldora           #+#    #+#             */
-/*   Updated: 2020/05/25 15:56:28 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 21:50:42 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ static char		*ft_minus_n_null(unsigned int add, char *str,
 								t_fmt **fmt_f, char *nulls)
 {
 	char *result;
+	char *base_str;
 
 	if ((*fmt_f)->fill_width == '0' && *str == '-')
 	{
 		ft_memset(nulls, (*fmt_f)->fill_width, add);
 		str = ft_strjoin(nulls, ++str);
+		ft_basefree(&str, &base_str);
 		if (!(result = (char*)malloc(sizeof(char) * 2)))
 			return (0);
 		*result = '-';
@@ -53,7 +55,8 @@ static char		*ft_add_accuracy(unsigned int len, char *str, t_fmt **fmt_f)
 	return (str);
 }
 
-static int		ft_align(unsigned int len, char *str, t_fmt **fmt_f)
+static int		ft_align(unsigned int len, char *str, t_fmt **fmt_f,
+													char *base_str)
 {
 	char	*nulls;
 	int		add;
@@ -69,6 +72,7 @@ static int		ft_align(unsigned int len, char *str, t_fmt **fmt_f)
 	{
 		str = ft_minus_n_null(add, str, fmt_f, nulls);
 	}
+	ft_basefree(&str, &base_str);
 	ft_putstr_fd(str, 1);
 	add = (int)ft_strlen(str);
 	free(str);
@@ -80,24 +84,24 @@ int				ft_uinttype(t_fmt **fmt_f, va_list ap)
 {
 	unsigned int	value;
 	char			*str;
-	int				accuracy;
+	char			*base_str;
 
-	accuracy = (*fmt_f)->accuracy;
-	value = va_arg(ap, unsigned int);
-	str = ft_itoa_l(value);
+	str = ft_itoa_l(va_arg(ap, unsigned int));
+	base_str = str;
 	if (*str == '0' && (*fmt_f)->accuracy_exist && (*fmt_f)->accuracy == 0)
 		*str = '\0';
 	value = (int)ft_strlen(str);
 	if ((*fmt_f)->accuracy_exist)
 	{
-		if (*str != '0' && accuracy > 0)
+		if (*str != '0' && (*fmt_f)->accuracy > 0)
 			(*fmt_f)->fill_width = ' ';
-		if (accuracy > 0)
+		if ((*fmt_f)->accuracy > 0)
 			str = ft_add_accuracy(value, str, fmt_f);
+		ft_basefree(&str, &base_str);
 		value = (int)ft_strlen(str);
 	}
 	if ((unsigned int)(*fmt_f)->width > value)
-		return (ft_align(value, str, fmt_f));
+		return (ft_align(value, str, fmt_f, base_str));
 	else
 		ft_putstr_fd(str, 1);
 	free(str);

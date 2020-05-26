@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 00:21:50 by jeldora           #+#    #+#             */
-/*   Updated: 2020/05/24 19:16:38 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 22:31:11 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,16 @@ static char		*ft_add_accuracy(int len, char *str, t_fmt **fmt_flags)
 {
 	int		add;
 	char	*result;
+	char	*base_str;
 
+	base_str = str;
 	add = (*fmt_flags)->accuracy - len;
 	if (!(result = (char*)malloc(sizeof(char) * (add + 1))))
 		return (0);
 	ft_memset(result, '0', add);
 	result[add] = '\0';
 	str = ft_strjoin(result, str);
+	ft_basefree(&str, &base_str);
 	free(result);
 	return (str);
 }
@@ -45,7 +48,9 @@ static char		*ft_add_accuracy(int len, char *str, t_fmt **fmt_flags)
 static int		ft_width(int len, char *str, t_fmt **fmt_flags)
 {
 	char *nulls;
+	char *base_str;
 
+	base_str = str;
 	len = (*fmt_flags)->width - ft_strlen(str);
 	if (!(nulls = (char*)malloc(sizeof(char) * len + 1)))
 		return (0);
@@ -55,6 +60,7 @@ static int		ft_width(int len, char *str, t_fmt **fmt_flags)
 		str = ft_strjoin(str, nulls);
 	else
 		str = ft_strjoin(nulls, str);
+	ft_basefree(&str, &base_str);
 	to_upper_all(str);
 	ft_putstr_fd(str, 1);
 	len = (int)ft_strlen(str);

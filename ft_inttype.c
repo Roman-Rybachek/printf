@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 23:20:07 by jeldora           #+#    #+#             */
-/*   Updated: 2020/05/24 17:56:41 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 21:39:29 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@ static char		*ft_minus_n_null(int add, char *str,
 						t_fmt **fmt_flags, char *nulls)
 {
 	char *result;
+	char *base_str;
 
+	base_str = str;
 	if ((*fmt_flags)->fill_width == '0' && *str == '-')
 	{
 		ft_memset(nulls, (*fmt_flags)->fill_width, add);
 		str = ft_strjoin(nulls, ++str);
+		ft_basefree(&str, &base_str);
 		if (!(result = (char*)malloc(sizeof(char) * 2)))
 			return (0);
 		*result = '-';
@@ -65,7 +68,8 @@ static char		*ft_add_accuracy(int len, char *str, t_fmt **fmt_flags)
 	}
 }
 
-static int		ft_align(int len, char *str, t_fmt **fmt_flags)
+static int		ft_align(int len, char *str, t_fmt **fmt_flags,
+												char *base_str)
 {
 	char	*nulls;
 	int		add;
@@ -81,6 +85,7 @@ static int		ft_align(int len, char *str, t_fmt **fmt_flags)
 	{
 		str = ft_minus_n_null(add, str, fmt_flags, nulls);
 	}
+	ft_basefree(&str, &base_str);
 	ft_putstr_fd(str, 1);
 	add = (int)ft_strlen(str);
 	free(str);
@@ -92,9 +97,10 @@ int				ft_inttype(t_fmt **fmt_flags, va_list ap)
 {
 	int		value;
 	char	*str;
+	char	*base_str;
 
-	value = va_arg(ap, int);
-	str = ft_itoa(value);
+	str = ft_itoa(va_arg(ap, int));
+	base_str = str;
 	if (*str == '0' && (*fmt_flags)->accuracy_exist &&
 					(*fmt_flags)->accuracy == 0)
 		*str = '\0';
@@ -105,10 +111,11 @@ int				ft_inttype(t_fmt **fmt_flags, va_list ap)
 		if ((*fmt_flags)->accuracy > value || (*str == '-' && \
 							(*fmt_flags)->accuracy > value - 1))
 			str = ft_add_accuracy(value, str, fmt_flags);
+		ft_basefree(&str, &base_str);
 		value = (int)ft_strlen(str);
 	}
 	if ((*fmt_flags)->width > value)
-		return (ft_align(value, str, fmt_flags));
+		return (ft_align(value, str, fmt_flags, base_str));
 	else
 		ft_putstr_fd(str, 1);
 	free(str);
