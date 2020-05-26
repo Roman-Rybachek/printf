@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 22:02:59 by jeldora           #+#    #+#             */
-/*   Updated: 2020/05/26 21:03:29 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 22:58:17 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int		ft_align(t_fmt **fmt_flags, char *str, char **base_str)
 	ft_basefree(&spaces, &base_spaces);
 	value_spaces = ft_strlen(spaces);
 	ft_basefree(&str, base_str);
-	free(str);
 	free(spaces);
 	return (value_spaces);
 }
