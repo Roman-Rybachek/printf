@@ -32,7 +32,7 @@ re: fclean all
 l:
 	make
 	make clean
-	gcc main_.c ft_strtype.c ft_basefree.c libftprintf.a -g
+	gcc main_.c ft_strtype.c libftprintf.a -g
 	valgrind --leak-check=full ./a.out
 
 bonus:

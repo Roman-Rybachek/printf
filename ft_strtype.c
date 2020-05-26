@@ -6,7 +6,7 @@
 /*   By: jeldora <jeldora@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 22:02:59 by jeldora           #+#    #+#             */
-/*   Updated: 2020/05/26 23:10:06 by jeldora          ###   ########.fr       */
+/*   Updated: 2020/05/26 23:50:15 by jeldora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,9 @@ int				ft_strtype(t_fmt **fmt_flags, va_list ap)
 
 	arg = va_arg(ap, char*);
 	base_str = NULL;
-	if ((str = arg) && !str)
-	{
-		str = ft_strdup("(null)");
+	str = arg;
+	if (!arg && (str = ft_strdup("(null)")))
 		base_str = str;
-	}
 	if ((*fmt_flags)->accuracy_exist)
 	{
 		str = ft_substr(str, 0, (*fmt_flags)->accuracy);
