@@ -2,7 +2,7 @@
 
 int		main(void)
 {
-	ft_printf("%*p", 20, NULL);
+	ft_printf("%-50.5s", NULL);
 
 	return (0);
 }

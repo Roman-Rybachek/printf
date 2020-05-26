@@ -1,5 +1,5 @@
 NAME = libftprintf.a
-PRINTF = ft_procent.c ft_printf.c ft_fwidth.c ft_faccuracy.c ft_ffind_len.c ft_ftype.c ft_chartype.c ft_format.c ft_strtype.c ft_inttype.c ft_hexlowtype.c ft_hexuptype.c ft_uinttype.c ft_pointertype.c
+PRINTF = ft_basefree.c ft_procent.c ft_printf.c ft_fwidth.c ft_faccuracy.c ft_ffind_len.c ft_ftype.c ft_chartype.c ft_format.c ft_strtype.c ft_inttype.c ft_hexlowtype.c ft_hexuptype.c ft_uinttype.c ft_pointertype.c
 FLAGS = -c -Wall -Wextra -Werror
 LIBFT_BUILD = cd libft && make && cd ..
 LIBFT_fCLEAN = cd libft && make fclean && cd ..
@@ -28,5 +28,11 @@ fclean: clean
 	@ rm -f *.out
 
 re: fclean all
+
+l:
+	make
+	make clean
+	gcc main_.c ft_strtype.c ft_basefree.c libftprintf.a -g
+	valgrind --leak-check=full ./a.out
 
 bonus:
